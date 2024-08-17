@@ -1,0 +1,77 @@
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+// Function to calculate GPA for a single semester
+double calculateGPA(const vector<double>& grades, const vector<double>& creditHours) {
+    double totalGradePoints = 0;
+    double totalCredits = 0;
+    
+    for (size_t i = 0; i < grades.size(); ++i) {
+        totalGradePoints += grades[i] * creditHours[i];
+        totalCredits += creditHours[i];
+    }
+
+    return totalGradePoints / totalCredits;
+}
+
+// Main function to compute the CGPA
+int main() {
+    int semesters;
+    double cumulativeGradePoints = 0;
+    double cumulativeCredits = 0;
+
+    cout << "Enter the number of semesters: ";
+    cin >> semesters;
+
+    for (int sem = 1; sem <= semesters; ++sem) {
+        int numCourses;
+        vector<double> grades;
+        vector<double> creditHours;
+
+        cout << "\nSemester " << sem << endl;
+        cout << "Enter the number of courses: ";
+        cin >> numCourses;
+
+        for (int i = 0; i < numCourses; ++i) {
+            string courseName;
+            double credit, grade;
+
+            cout << "Enter the course name (Optional): ";
+            cin.ignore();
+            getline(cin, courseName);
+
+            cout << "Enter the credit hours for " << courseName << ": ";
+            cin >> credit;
+
+            cout << "Enter the grade earned in " << courseName << ": ";
+            cin >> grade;
+
+            grades.push_back(grade);
+            creditHours.push_back(credit);
+        }
+
+        double semesterGPA = calculateGPA(grades, creditHours);
+        double totalCredits = 0;
+        double totalGradePoints = 0;
+
+        for (size_t i = 0; i < grades.size(); ++i) {
+            totalGradePoints += grades[i] * creditHours[i];
+            totalCredits += creditHours[i];
+        }
+
+        cumulativeGradePoints += totalGradePoints;
+        cumulativeCredits += totalCredits;
+
+        cout << "\nSemester GPA: " << semesterGPA << endl;
+        cout << "Total Credits: " << totalCredits << endl;
+        cout << "Total Grade Points: " << totalGradePoints << endl;
+    }
+
+    double cgpa = cumulativeGradePoints / cumulativeCredits;
+    cout << "\nCumulative CGPA: " << cgpa << endl;
+
+    return 0;
+}
